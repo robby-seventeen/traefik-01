@@ -1,4 +1,11 @@
+# Secrets
 .env
-letsencrypt/
-logs/
+
+# Ignore contents, keep dirs
+letsencrypt/*
+logs/*
 *.log
+
+# Keep empty dirs
+!letsencrypt/.keep
+!logs/.keep
