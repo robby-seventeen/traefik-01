@@ -1,0 +1,15 @@
+http:
+  routers:
+    forum-ageproof:
+      rule: "Host(`forum.ageproofperformance.com`)"
+      entryPoints:
+        - websecure
+      service: forum-ageproof
+      tls:
+        certResolver: dns
+
+  services:
+    forum-ageproof:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.3.42:80"

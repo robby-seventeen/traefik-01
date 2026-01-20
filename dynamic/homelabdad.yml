@@ -1,0 +1,15 @@
+http:
+  routers:
+    homelabdad:
+      rule: "Host(`discuss.homelabdad.com`)"
+      entryPoints:
+        - websecure
+      service: homelabdad
+      tls:
+        certResolver: dns
+
+  services:
+    homelabdad:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.3.66:80"

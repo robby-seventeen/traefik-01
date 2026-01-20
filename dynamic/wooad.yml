@@ -1,0 +1,15 @@
+http:
+  routers:
+    wooad:
+      rule: "Host(`wooad.17-solutions.net`)"
+      entryPoints:
+        - websecure
+      service: wooad
+      tls:
+        certResolver: dns
+
+  services:
+    wooad:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.3.213:9996"

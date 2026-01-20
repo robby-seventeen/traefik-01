@@ -1,0 +1,15 @@
+http:
+  routers:
+    warhorse-munitions:
+      rule: "Host(`n.warhorsemunitions.com`)"
+      entryPoints:
+        - websecure
+      service: warhorse-munitions
+      tls:
+        certResolver: dns
+
+  services:
+    warhorse-munitions:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.1.153:80"

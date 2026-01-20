@@ -1,0 +1,15 @@
+http:
+  routers:
+    forum-matchdirecting:
+      rule: "Host(`forum.matchdirecting.com`)"
+      entryPoints:
+        - websecure
+      service: forum-matchdirecting
+      tls:
+        certResolver: dns
+
+  services:
+    forum-matchdirecting:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.3.63:80"

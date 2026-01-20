@@ -1,0 +1,15 @@
+http:
+  routers:
+    webmail-digitallyhidden:
+      rule: "Host(`webmail.digitallyhidden.com`)"
+      entryPoints:
+        - websecure
+      service: webmail-digitallyhidden
+      tls:
+        certResolver: dns
+
+  services:
+    webmail-digitallyhidden:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.210.1:8888"

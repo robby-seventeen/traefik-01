@@ -1,0 +1,17 @@
+http:
+  routers:
+    saukvillegunclub:
+      rule: "Host(`saukvillegunclub.com`) || Host(`www.saukvillegunclub.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - www-to-root
+      service: saukvillegunclub
+      tls:
+        certResolver: dns
+
+  services:
+    saukvillegunclub:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.1.160:80"

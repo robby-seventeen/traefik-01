@@ -1,0 +1,9 @@
+http:
+  routers:
+    traefik-metrics:
+      rule: "Host(`traefik-metrics.17-solutions.cloud`)"
+      entryPoints:
+        - admin
+      service: prometheus@internal
+      tls:
+        certResolver: dns

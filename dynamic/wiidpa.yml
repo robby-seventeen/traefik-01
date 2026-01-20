@@ -1,0 +1,17 @@
+http:
+  routers:
+    wiidpa:
+      rule: "Host(`wiidpa.com`) || Host(`www.wiidpa.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - www-to-root
+      service: wiidpa
+      tls:
+        certResolver: dns
+
+  services:
+    wiidpa:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.210.1:8084"

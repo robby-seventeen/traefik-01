@@ -1,0 +1,71 @@
+services:
+  traefik:
+    image: traefik:v3.6
+    container_name: traefik
+    restart: unless-stopped
+
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8443:8443"
+
+    env_file:
+      - .env
+
+    command:
+      # ========================
+      # Core
+      # ========================
+      - "--log.level=INFO"
+
+      # ========================
+      # EntryPoints
+      # ========================
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.admin.address=:8443"
+
+      # ========================
+      # Providers
+      # ========================
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
+
+      # ========================
+      # API / Dashboard
+      # ========================
+      - "--api.dashboard=true"
+      - "--api.insecure=false"
+
+      # ========================
+      # ACME (DNS-01)
+      # ========================
+      - "--certificatesresolvers.dns.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.dns.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.dns.acme.dnschallenge.provider=cloudflare"
+
+      # ========================
+      # Access Logs (NO rotation here)
+      # ========================
+      - "--accesslog=true"
+      - "--accesslog.filepath=/logs/access.log"
+      - "--accesslog.format=json"
+      - "--accesslog.bufferingsize=100"
+      - "--accesslog.filters.statuscodes=400-599"
+      - "--accesslog.fields.headers.defaultmode=drop"
+
+      # ========================
+      # Metrics
+      # ========================
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.addrouterslabels=true"
+      - "--metrics.prometheus.addserviceslabels=true"
+
+    volumes:
+      - ./dynamic:/etc/traefik/dynamic:ro
+      - ./letsencrypt:/letsencrypt
+      - ./logs:/logs
+

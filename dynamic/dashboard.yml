@@ -1,0 +1,17 @@
+http:
+  routers:
+    traefik:
+      rule: "Host(`traefik.17-solutions.cloud`)"
+      entryPoints:
+        - admin
+      service: api@internal
+      middlewares:
+        - auth
+      tls:
+        certResolver: dns
+
+  middlewares:
+    auth:
+      basicAuth:
+        users:
+          - "admin:$2y$05$Pln.Q/oKMeg1NRb2EWBopuSvSf12GfsmvSTweEigZqOHmE3Te6xqa"

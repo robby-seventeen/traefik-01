@@ -1,0 +1,17 @@
+http:
+  routers:
+    robby-im:
+      rule: "Host(`robby.im`) || Host(`www.robby.im`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - www-to-root
+      service: robby-im
+      tls:
+        certResolver: dns
+
+  services:
+    robby-im:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.210.1:8081"

@@ -1,0 +1,17 @@
+http:
+  routers:
+    sovereign-health:
+      rule: "Host(`sovereignhealthperformance.com`) || Host(`www.sovereignhealthperformance.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - www-to-root
+      service: sovereign-health
+      tls:
+        certResolver: dns
+
+  services:
+    sovereign-health:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.3.50:80"

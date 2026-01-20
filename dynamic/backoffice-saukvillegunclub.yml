@@ -1,0 +1,15 @@
+http:
+  routers:
+    backoffice-saukvillegunclub:
+      rule: "Host(`backoffice.saukvillegunclub.com`)"
+      entryPoints:
+        - websecure
+      service: backoffice-saukvillegunclub
+      tls:
+        certResolver: dns
+
+  services:
+    backoffice-saukvillegunclub:
+      loadBalancer:
+        servers:
+          - url: "http://10.17.1.161:80"
